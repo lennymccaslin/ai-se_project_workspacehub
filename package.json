@@ -12,5 +12,9 @@
     "build": "npm run build --workspace server && npm run build --workspace client",
     "typecheck": "npm run typecheck --workspace client && npm run typecheck --workspace server",
     "seed": "npm run seed --workspace server"
+  },
+  "allowScripts": {
+    "esbuild@0.27.5": true,
+    "esbuild@0.25.12": true
   }
 }
