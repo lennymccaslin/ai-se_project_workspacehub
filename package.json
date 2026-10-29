@@ -1,6 +1,7 @@
 {
   "name": "workspacehub",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "workspaces": [
     "client",
@@ -11,6 +12,23 @@
     "dev:server": "npm run dev --workspace server",
     "build": "npm run build --workspace server && npm run build --workspace client",
     "typecheck": "npm run typecheck --workspace client && npm run typecheck --workspace server",
-    "seed": "npm run seed --workspace server"
+    "seed": "npm run seed --workspace server",
+    "lint": "eslint client/src server/src",
+    "format": "prettier --write client/src server/src",
+    "format:check": "prettier --check client/src server/src"
+  },
+  "allowScripts": {
+    "esbuild@0.27.5": true,
+    "esbuild@0.27.2": true,
+    "esbuild@0.25.12": true
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^15.15.0",
+    "prettier": "^3.9.10",
+    "typescript-eslint": "^8.72.1"
   }
 }
