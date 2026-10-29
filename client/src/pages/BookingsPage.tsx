@@ -45,6 +45,7 @@ export const BookingsPage = () => {
     Record<string, BookingTouched>
   >({});
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [createError, setCreateError] = useState<string | null>(null);
   const [bookingErrors, setBookingErrors] = useState<Record<string, string>>(
     {},
@@ -58,7 +59,7 @@ export const BookingsPage = () => {
       }
 
       setLoading(true);
-      setCreateError(null);
+      setLoadError(null);
 
       try {
         const nextBookings = await bookingService.list();
@@ -72,7 +73,7 @@ export const BookingsPage = () => {
           ),
         );
       } catch (loadError) {
-        setCreateError(
+        setLoadError(
           loadError instanceof Error
             ? loadError.message
             : "Unable to load bookings",
@@ -222,6 +223,10 @@ export const BookingsPage = () => {
         message="Fetching schedule items."
       />
     );
+  }
+
+  if (loadError) {
+    return <StatusPanel title="Bookings unavailable" message={loadError} />;
   }
 
   return (

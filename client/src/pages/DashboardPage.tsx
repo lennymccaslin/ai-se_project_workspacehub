@@ -75,7 +75,7 @@ export const DashboardPage = () => {
     })
     .slice(0, 5);
 
-  const memberPreview = data.users.slice(0, 5);
+  const memberPreview = data.users.slice(0, 4);
 
   if (loading) {
     return (
@@ -172,7 +172,7 @@ export const DashboardPage = () => {
         </div>
         <div className="space-y-6">
           <div className="rounded-[20px] bg-white p-8 shadow-sm">
-            <h2 className="text-xl font-bold text-ink">Team members</h2>
+            <h2 className="text-xl font-bold text-ink">Members</h2>
             {memberPreview.length ? (
               <ul className="mt-4 space-y-3">
                 {memberPreview.map((member) => (
