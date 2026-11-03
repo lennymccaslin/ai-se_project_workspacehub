@@ -75,6 +75,20 @@ export type TaskCreatePayload = Pick<
 
 export type TaskUpdatePayload = Partial<TaskCreatePayload>;
 
+export interface Comment {
+  _id: string;
+  organizationId: string;
+  taskId: string;
+  authorId: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type CommentCreatePayload = Pick<Comment, "content">;
+
+export type CommentUpdatePayload = CommentCreatePayload;
+
 export interface Booking {
   _id: string;
   organizationId: string;
