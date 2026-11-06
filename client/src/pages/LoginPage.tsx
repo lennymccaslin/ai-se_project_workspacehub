@@ -23,7 +23,7 @@ export const LoginPage = () => {
 
     try {
       await login(formState);
-      navigate("/");
+      void navigate("/");
     } catch (submitError) {
       setError(
         submitError instanceof Error ? submitError.message : "Login failed",
@@ -41,7 +41,10 @@ export const LoginPage = () => {
         <p className="mt-2 text-sm text-slate-600">
           Use the seeded demo accounts or register a new organization.
         </p>
-        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 space-y-4"
+          onSubmit={(event) => void handleSubmit(event)}
+        >
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">
               Email

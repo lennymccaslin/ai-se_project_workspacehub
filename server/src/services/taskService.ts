@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { Comment } from "../models/Comment";
 import { Project } from "../models/Project";
 import { Task } from "../models/Task";
 import { User } from "../models/User";
@@ -167,5 +168,9 @@ export const deleteTask = async (actor: AuthPayload, id: string) => {
   }
 
   await task.deleteOne();
+  await Comment.deleteMany({
+    taskId: task._id,
+    organizationId: task.organizationId,
+  });
   return { deleted: true };
 };

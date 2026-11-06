@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { StatusPanel } from "../components/StatusPanel";
+import { TaskComments } from "../components/TaskComments";
 import { useAuth } from "../hooks/useAuth";
 import { projectService } from "../services/projectService";
 import { taskService } from "../services/taskService";
@@ -95,6 +96,8 @@ export const TasksPage = () => {
 
   useEffect(() => {
     void loadData();
+    // loadData is recreated every render; the reload is keyed on the user only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?._id]);
 
   const handleCreate = async (event: FormEvent<HTMLFormElement>) => {
@@ -207,7 +210,7 @@ export const TasksPage = () => {
       <section className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
         <form
           className="rounded-3xl bg-white p-6 shadow-sm"
-          onSubmit={handleCreate}
+          onSubmit={(event) => void handleCreate(event)}
         >
           <h2 className="text-xl font-semibold text-ink">Create task</h2>
           <div className="mt-4 space-y-4">
@@ -366,11 +369,7 @@ export const TasksPage = () => {
                         className={`${selectClassName} disabled:bg-slate-100`}
                         disabled={!canEdit}
                         onChange={(event) =>
-                          handleTaskEdit(
-                            task._id,
-                            "status",
-                            event.target.value,
-                          )
+                          handleTaskEdit(task._id, "status", event.target.value)
                         }
                         style={selectCaretStyle}
                         value={formState?.status ?? task.status}
@@ -456,6 +455,7 @@ export const TasksPage = () => {
                         </button>
                       ) : null}
                     </div>
+                    <TaskComments taskId={task._id} users={users} />
                   </article>
                 </li>
               );

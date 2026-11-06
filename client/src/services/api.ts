@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import type { AxiosResponse } from "axios";
 import type { ApiResponse } from "../types/api";
 
@@ -19,9 +19,10 @@ export const setAuthToken = (token: string | null) => {
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    const message =
-      error.response?.data?.error?.message ?? error.message ?? "Request failed";
+  (error: unknown) => {
+    const message = isAxiosError<ApiResponse<unknown>>(error)
+      ? (error.response?.data?.error?.message ?? error.message)
+      : "Request failed";
     return Promise.reject(new Error(message));
   },
 );

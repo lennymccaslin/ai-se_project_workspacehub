@@ -1,0 +1,49 @@
+import type { Request, Response } from "express";
+import {
+  createComment,
+  deleteComment,
+  listComments,
+  updateComment,
+} from "../services/commentService";
+import { sendSuccess } from "../utils/apiResponse";
+
+type BodyRequest = Request<
+  Record<string, string>,
+  unknown,
+  Record<string, unknown>
+>;
+
+export const listCommentsController = async (req: Request, res: Response) => {
+  const comments = await listComments(req.auth!, req.params.id);
+  return sendSuccess(res, comments);
+};
+
+export const createCommentController = async (
+  req: BodyRequest,
+  res: Response,
+) => {
+  const comment = await createComment(req.auth!, req.params.id, req.body);
+  return sendSuccess(res, comment, 201);
+};
+
+export const updateCommentController = async (
+  req: BodyRequest,
+  res: Response,
+) => {
+  const comment = await updateComment(
+    req.auth!,
+    req.params.id,
+    req.params.commentId,
+    req.body,
+  );
+  return sendSuccess(res, comment);
+};
+
+export const deleteCommentController = async (req: Request, res: Response) => {
+  const result = await deleteComment(
+    req.auth!,
+    req.params.id,
+    req.params.commentId,
+  );
+  return sendSuccess(res, result);
+};

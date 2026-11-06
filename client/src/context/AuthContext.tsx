@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type PropsWithChildren,
-} from "react";
+import { useEffect, useMemo, useState, type PropsWithChildren } from "react";
 import {
   authService,
   type LoginPayload,
@@ -77,6 +72,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     };
 
     void hydrate();
+    // Session hydration intentionally runs once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (payload: LoginPayload) => {
@@ -108,6 +105,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         return Boolean(organization?.featureFlags[featureKey]);
       },
     }),
+    // The handlers close over state already listed here, so their identity is not a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [token, user, organization, loading],
   );
 
