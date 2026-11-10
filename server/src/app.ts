@@ -33,6 +33,7 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
+// Health stays above this so it responds even when the database is down.
 app.use(
   asyncHandler(async (_req, _res, next) => {
     await connectToDatabase();
