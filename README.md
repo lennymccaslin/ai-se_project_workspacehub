@@ -4,9 +4,9 @@ WorkspaceHub is a full-stack workspace for managing an organization's projects,
 tasks, team activity, and bookings. Users sign in to an organization and work
 with resources according to their role.
 
-**Frontend:** [Open WorkspaceHub](https://ai-se-project-workspacehub-u7ff-git-worksp-9c1ee9-lennymccaslin.vercel.app)
+**Frontend:** [Open WorkspaceHub](https://ai-se-project-workspacehub-u7ff.vercel.app)
 
-**API:** [Health check](https://ai-se-project-workspacehub-git-workspace-part-2-lennymccaslin.vercel.app/api/health)
+**API:** [Health check](ai-se-project-workspacehub-xi.vercel.app/api/health)
 
 ## Features
 
