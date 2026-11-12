@@ -62,10 +62,6 @@ export interface Task {
   updatedAt: string;
 }
 
-export interface TaskWithCommentCount extends Task {
-  commentCount: number;
-}
-
 export type TaskCreatePayload = Pick<
   Task,
   | "projectId"
@@ -78,18 +74,6 @@ export type TaskCreatePayload = Pick<
 >;
 
 export type TaskUpdatePayload = Partial<TaskCreatePayload>;
-
-export interface Booking {
-  _id: string;
-  organizationId: string;
-  title: string;
-  description: string;
-  startsAt: string;
-  endsAt: string;
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface Comment {
   _id: string;
@@ -104,6 +88,18 @@ export interface Comment {
 export type CommentCreatePayload = Pick<Comment, "content">;
 
 export type CommentUpdatePayload = CommentCreatePayload;
+
+export interface Booking {
+  _id: string;
+  organizationId: string;
+  title: string;
+  description: string;
+  startsAt: string;
+  endsAt: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface AuthSession {
   token: string;

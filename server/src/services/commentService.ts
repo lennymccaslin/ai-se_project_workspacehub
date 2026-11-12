@@ -60,15 +60,7 @@ export const listComments = async (actor: AuthPayload, taskId: string) => {
   return Comment.find({
     taskId,
     organizationId: actor.organizationId,
-  }).sort({ createdAt: -1 });
-};
-
-export const getCommentById = async (
-  actor: AuthPayload,
-  taskId: string,
-  commentId: string,
-) => {
-  return getCommentForTask(actor, taskId, commentId);
+  }).sort({ createdAt: 1 });
 };
 
 export const createComment = async (
