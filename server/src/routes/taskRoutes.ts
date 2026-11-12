@@ -6,13 +6,8 @@ import {
   listTasksController,
   updateTaskController,
 } from "../controllers/taskController";
-import {
-  createCommentController,
-  deleteCommentController,
-  listCommentsController,
-  updateCommentController,
-} from "../controllers/commentController";
 import { requireAuth } from "../middleware/auth";
+import commentRoutes from "./commentRoutes";
 import { asyncHandler } from "../utils/asyncHandler";
 
 const router = Router();
@@ -25,12 +20,6 @@ router.get("/:id", asyncHandler(getTaskController));
 router.patch("/:id", asyncHandler(updateTaskController));
 router.delete("/:id", asyncHandler(deleteTaskController));
 
-router.get("/:id/comments", asyncHandler(listCommentsController));
-router.post("/:id/comments", asyncHandler(createCommentController));
-router.patch("/:id/comments/:commentId", asyncHandler(updateCommentController));
-router.delete(
-  "/:id/comments/:commentId",
-  asyncHandler(deleteCommentController),
-);
+router.use("/:id/comments", commentRoutes);
 
 export default router;
