@@ -6,7 +6,7 @@ with resources according to their role.
 
 **Frontend:** [Open WorkspaceHub](https://ai-se-project-workspacehub-u7ff.vercel.app)
 
-**API:** [Health check](ai-se-project-workspacehub-xi.vercel.app/api/health)
+**API:** [Health check](https://ai-se-project-workspacehub-xi.vercel.app/api/health)
 
 ## Features
 
