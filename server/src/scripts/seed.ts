@@ -1,19 +1,16 @@
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "../config/database";
 import { Booking } from "../models/Booking";
-import { Comment } from "../models/Comment";
 import { Organization } from "../models/Organization";
 import { Project } from "../models/Project";
 import { Task } from "../models/Task";
 import { User } from "../models/User";
-import { deleteTask } from "../services/taskService";
 
 const seed = async () => {
   await connectToDatabase();
 
   await Promise.all([
     Booking.deleteMany({}),
-    Comment.deleteMany({}),
     Task.deleteMany({}),
     Project.deleteMany({}),
     User.deleteMany({}),
@@ -32,7 +29,7 @@ const seed = async () => {
 
   const passwordHash = await bcrypt.hash("Password123!", 10);
 
-  const [owner, admin, member, deletedUser] = await User.create([
+  const [owner, admin, member] = await User.create([
     {
       firstName: "Olivia",
       lastName: "Owner",
@@ -57,22 +54,6 @@ const seed = async () => {
       organizationId: organization._id,
       role: "member",
     },
-    {
-      firstName: "Former",
-      lastName: "Member",
-      email: "former-member@workspacehub.dev",
-      passwordHash,
-      organizationId: organization._id,
-      role: "member",
-    },
-    {
-      firstName: "Noah",
-      lastName: "Member",
-      email: "other-member@workspacehub.dev",
-      passwordHash,
-      organizationId: organization._id,
-      role: "member",
-    },
   ]);
 
   const [projectOne, projectTwo] = await Project.create([
@@ -91,7 +72,7 @@ const seed = async () => {
     },
   ]);
 
-  const tasks = await Task.create([
+  await Task.create([
     {
       organizationId: organization._id,
       projectId: projectOne._id,
@@ -101,7 +82,6 @@ const seed = async () => {
       priority: "medium",
       assignedTo: member._id,
       dueDate: new Date("2026-04-08T17:00:00.000Z"),
-      createdAt: new Date("2026-04-08T09:00:00.000Z"),
     },
     {
       organizationId: organization._id,
@@ -112,7 +92,6 @@ const seed = async () => {
       priority: "high",
       assignedTo: admin._id,
       dueDate: new Date("2026-04-10T16:00:00.000Z"),
-      createdAt: new Date("2026-04-04T09:00:00.000Z"),
     },
     {
       organizationId: organization._id,
@@ -123,7 +102,6 @@ const seed = async () => {
       priority: "high",
       assignedTo: owner._id,
       dueDate: new Date("2026-04-12T18:00:00.000Z"),
-      createdAt: new Date("2026-04-05T09:00:00.000Z"),
     },
     {
       organizationId: organization._id,
@@ -134,7 +112,6 @@ const seed = async () => {
       priority: "low",
       assignedTo: member._id,
       dueDate: new Date("2026-04-04T15:00:00.000Z"),
-      createdAt: new Date("2026-04-06T09:00:00.000Z"),
     },
     {
       organizationId: organization._id,
@@ -145,63 +122,8 @@ const seed = async () => {
       priority: "medium",
       assignedTo: owner._id,
       dueDate: new Date("2026-04-15T19:00:00.000Z"),
-      createdAt: new Date("2026-04-07T09:00:00.000Z"),
     },
   ]);
-
-  await Comment.create([
-    {
-      organizationId: organization._id,
-      taskId: tasks[0]._id,
-      authorId: member._id,
-      content:
-        "I will document the navigation issues and share them with the team.",
-    },
-    {
-      organizationId: organization._id,
-      taskId: tasks[0]._id,
-      authorId: admin._id,
-      content: "The release milestones are in progress.",
-    },
-    {
-      organizationId: organization._id,
-      taskId: tasks[0]._id,
-      authorId: owner._id,
-      content: "Please include team approval requirements in the first draft.",
-    },
-    {
-      organizationId: organization._id,
-      taskId: tasks[0]._id,
-      authorId: deletedUser._id,
-      content: "I added the most common questions from recent client requests.",
-    },
-  ]);
-  await User.deleteOne({ _id: deletedUser._id });
-
-  // Deleting through the service cascades to the task's comments.
-  const ghostTask = await Task.create({
-    organizationId: organization._id,
-    projectId: projectOne._id,
-    title: "Retire legacy landing page",
-    description: "Task removed through the service to verify comment cleanup.",
-    status: "todo",
-    priority: "low",
-    assignedTo: member._id,
-  });
-  await Comment.create({
-    organizationId: organization._id,
-    taskId: ghostTask._id,
-    authorId: member._id,
-    content: "This comment is removed together with its task.",
-  });
-  await deleteTask(
-    {
-      userId: String(owner._id),
-      organizationId: String(organization._id),
-      role: "owner",
-    },
-    String(ghostTask._id),
-  );
 
   await Booking.create([
     {

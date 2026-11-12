@@ -3,12 +3,11 @@ import type {
   Task,
   TaskCreatePayload,
   TaskUpdatePayload,
-  TaskWithCommentCount,
 } from "../types/models";
 
 export const taskService = {
   list: (projectId?: string) =>
-    unwrapResponse<TaskWithCommentCount[]>(
+    unwrapResponse<Task[]>(
       api.get("/tasks", {
         params: projectId ? { projectId } : undefined,
       }),

@@ -28,6 +28,8 @@ const commentSchema = new Schema(
   },
 );
 
+commentSchema.index({ taskId: 1, createdAt: 1 });
+
 export type CommentDocument = InferSchemaType<typeof commentSchema> & {
   _id: Types.ObjectId;
 };
